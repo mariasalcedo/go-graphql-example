@@ -39,6 +39,7 @@ type Config struct {
 }
 
 type ResolverRoot interface {
+	WindFarm() WindFarmResolver
 }
 
 type DirectiveRoot struct {
@@ -65,6 +66,12 @@ type ComplexityRoot struct {
 		Name                  func(childComplexity int) int
 		WeatherForecasts      func(childComplexity int, forecastDays *int) int
 	}
+}
+
+type WindFarmResolver interface {
+	WeatherForecasts(ctx context.Context, obj *model.WindFarm, forecastDays *int) ([]*model.WeatherForecast, error)
+	HasPrecipitationToday(ctx context.Context, obj *model.WindFarm) (bool, error)
+	Elevation(ctx context.Context, obj *model.WindFarm) (float64, error)
 }
 
 type executableSchema struct {
@@ -890,7 +897,7 @@ func (ec *executionContext) _WindFarm_weatherForecasts(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.WeatherForecasts, nil
+		return ec.resolvers.WindFarm().WeatherForecasts(rctx, obj, fc.Args["forecastDays"].(*int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -911,8 +918,8 @@ func (ec *executionContext) fieldContext_WindFarm_weatherForecasts(ctx context.C
 	fc = &graphql.FieldContext{
 		Object:     "WindFarm",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "time":
@@ -957,7 +964,7 @@ func (ec *executionContext) _WindFarm_hasPrecipitationToday(ctx context.Context,
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.HasPrecipitationToday, nil
+		return ec.resolvers.WindFarm().HasPrecipitationToday(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -978,8 +985,8 @@ func (ec *executionContext) fieldContext_WindFarm_hasPrecipitationToday(_ contex
 	fc = &graphql.FieldContext{
 		Object:     "WindFarm",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Boolean does not have child fields")
 		},
@@ -1001,7 +1008,7 @@ func (ec *executionContext) _WindFarm_elevation(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Elevation, nil
+		return ec.resolvers.WindFarm().Elevation(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1022,8 +1029,8 @@ func (ec *executionContext) fieldContext_WindFarm_elevation(_ context.Context, f
 	fc = &graphql.FieldContext{
 		Object:     "WindFarm",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Float does not have child fields")
 		},
@@ -2935,38 +2942,131 @@ func (ec *executionContext) _WindFarm(ctx context.Context, sel ast.SelectionSet,
 		case "id":
 			out.Values[i] = ec._WindFarm_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "name":
 			out.Values[i] = ec._WindFarm_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "latitude":
 			out.Values[i] = ec._WindFarm_latitude(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "longitude":
 			out.Values[i] = ec._WindFarm_longitude(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "weatherForecasts":
-			out.Values[i] = ec._WindFarm_weatherForecasts(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._WindFarm_weatherForecasts(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
 			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "hasPrecipitationToday":
-			out.Values[i] = ec._WindFarm_hasPrecipitationToday(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._WindFarm_hasPrecipitationToday(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
 			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "elevation":
-			out.Values[i] = ec._WindFarm_elevation(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				out.Invalids++
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._WindFarm_elevation(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&fs.Invalids, 1)
+				}
+				return res
 			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

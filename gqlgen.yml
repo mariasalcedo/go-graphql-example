@@ -74,6 +74,15 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
+  WeatherForecast:
+  WindFarm:
+    fields:
+      weatherForecasts:
+        resolver: true
+      hasPrecipitationToday:
+        resolver: true
+      elevation:
+        resolver: true
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID

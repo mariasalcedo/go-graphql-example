@@ -75,7 +75,15 @@ func main() {
 	})
 
 	// Setting graphQL server
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	srv := handler.NewDefaultServer(
+		graph.NewExecutableSchema(
+			graph.Config{
+				Resolvers: &graph.Resolver{
+					Config: c,
+				},
+			},
+		),
+	)
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
