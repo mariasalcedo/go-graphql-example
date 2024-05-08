@@ -1,7 +1,7 @@
-- [ ] GraphQL schema generation
-- [ ] Forecast REST client https://open-meteo.com/en/docs + unit test
+- [x] GraphQL schema generation
+- [x] Forecast REST client https://open-meteo.com/en/docs + unit test
 - [ ] Elevation REST client https://open-meteo.com/en/docs/elevation-api + unit test
-- [ ] GraphQL schema binding for API generated fields
+- [x] GraphQL schema binding for API generated fields
 - [ ] PostgreSQL persistence layer
 - [ ] GraphQL schema binding for SQL persisted fields (Create)
 - [ ] GraphQL schema binding for SQL persisted fields (Updating)
@@ -12,3 +12,5 @@
 - [ ] Implement cache for restclient calls
 - [ ] Implement dataloader
 - [ ] Implement the same using a different graphql library
+- [ ] cleanup hardcoded info
+- [ ] cleanup any localhost reference

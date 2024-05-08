@@ -4,6 +4,7 @@ go 1.21.5
 
 require (
 	github.com/99designs/gqlgen v0.17.46
+	github.com/sirupsen/logrus v1.9.3
 	github.com/vektah/gqlparser/v2 v2.5.11
 )
 
@@ -20,6 +21,7 @@ require (
 	github.com/xrash/smetrics v0.0.0-20240312152122-5f08fbb34913 // indirect
 	golang.org/x/mod v0.17.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
 	golang.org/x/text v0.15.0 // indirect
 	golang.org/x/tools v0.20.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
