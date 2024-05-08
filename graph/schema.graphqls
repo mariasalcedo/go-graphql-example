@@ -27,3 +27,9 @@ type WeatherForecast {
   "Wind Direction (10 m) in degrees"
   windDirection: Float!
 }
+
+## To patch error from gqlgen: Schema does not support operation type \"query\"
+## https://github.com/99designs/gqlgen/issues/2365
+type Query {
+  id: String
+}
