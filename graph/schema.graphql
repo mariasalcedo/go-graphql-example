@@ -1,0 +1,29 @@
+type WindFarm {
+    "ID of the wind farm"
+    id: ID!
+    "Name of the wind farm"
+    name: String!
+    "Latitude in degrees"
+    latitude: Float!
+    "Longitude in degrees"
+    longitude: Float!
+    "Provided forecasts from openmeteo for the weather"
+    weatherForecasts(forecastDays: Int = 7): [WeatherForecast!]!
+    "Is there precipitation at the wind farm today?"
+    hasPrecipitationToday: Boolean!
+    "Elevation of the wind farm"
+    elevation: Float!
+}
+
+type WeatherForecast {
+    "Time of the forecast in UTC/GMT"
+    time: String!
+    "Temperature (2 m) in celsius"
+    temperature: Float!
+    "Precipitation (rain + showers + snow) in millimeter"
+    precipitation: Float!
+    "Wind Speed (10 m) in Km/h"
+    windSpeed: Float!
+    "Wind Direction (10 m) in degrees"
+    windDirection: Float!
+}
