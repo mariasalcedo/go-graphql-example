@@ -1,0 +1,14 @@
+- [ ] GraphQL schema generation
+- [ ] Forecast REST client https://open-meteo.com/en/docs + unit test
+- [ ] Elevation REST client https://open-meteo.com/en/docs/elevation-api + unit test
+- [ ] GraphQL schema binding for API generated fields
+- [ ] PostgreSQL persistence layer
+- [ ] GraphQL schema binding for SQL persisted fields (Create)
+- [ ] GraphQL schema binding for SQL persisted fields (Updating)
+- [ ] GraphQL schema binding for SQL persisted fields (Fetch a single)
+- [ ] GraphQL schema binding for SQL persisted fields (Fetch a paginated list)
+- [ ] Dockerfile + docker-compose.yaml
+- [ ] Unit tests
+- [ ] Implement cache for restclient calls
+- [ ] Implement dataloader
+- [ ] Implement the same using a different graphql library
