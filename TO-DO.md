@@ -1,6 +1,6 @@
 - [x] GraphQL schema generation
 - [x] Forecast REST client https://open-meteo.com/en/docs + unit test
-- [ ] Elevation REST client https://open-meteo.com/en/docs/elevation-api + unit test
+- [x] Elevation REST client https://open-meteo.com/en/docs/elevation-api + unit test
 - [x] GraphQL schema binding for API generated fields
 - [ ] PostgreSQL persistence layer
 - [ ] GraphQL schema binding for SQL persisted fields (Create)
