@@ -183,6 +183,7 @@ func TestForecastClient(t *testing.T) {
 	c = config.Config{
 		BaseURL:      svr.URL,
 		ElevationURL: "",
+		ForecastURL:  "",
 		ForceHttp:    true,
 	}
 

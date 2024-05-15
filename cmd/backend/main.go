@@ -35,6 +35,11 @@ func init() {
 		log.Fatal("ELEVATION_URL not configured")
 	}
 
+	c.ForecastURL = fromEnv("FORECAST_URL")
+	if c.ForecastURL == "" {
+		log.Fatal("FORECAST_URL not configured")
+	}
+
 	var err error
 
 	forceHttp := fromEnv("FORCE_HTTP")

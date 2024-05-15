@@ -20,7 +20,7 @@ func readForecast(client *http.Client, c config.Config, request apimodel.Forecas
 	var req *http.Request
 	var err error
 	log.Infof("[ForecastClient] Building initial url...")
-	req, err = http.NewRequest("GET", c.BaseURL+c.ElevationURL, nil)
+	req, err = http.NewRequest("GET", c.BaseURL+c.ForecastURL, nil)
 	if err != nil {
 		log.WithError(err).Error(">>> Error creating request")
 		return apimodel.ForecastResponse{}, err
