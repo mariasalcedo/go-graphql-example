@@ -4,6 +4,18 @@
 The following repository contains a GraphQL API implementation example based on wind farms (i.e. a set of turbines) as entities.
 Included is the Rest client use case of getting insights on the weather and geography around the wind farms.
 
+## GraphQL Advantages over REST APIs
+
+1. 𝘿𝙖𝙩𝙖 𝙁𝙚𝙩𝙘𝙝𝙞𝙣𝙜: GraphQL allows clients to request only the data they need, reducing over-fetching and under-fetching.
+
+2. 𝙀𝙣𝙙𝙥𝙤𝙞𝙣𝙩 𝙎𝙩𝙧𝙪𝙘𝙩𝙪𝙧𝙚: GraphQL has a single endpoint (/graphql) for all queries, simplifying the API surface.
+
+3. 𝙍𝙚𝙨𝙥𝙤𝙣𝙨𝙚 𝙁𝙤𝙧𝙢𝙖𝙩: Clients define the structure of the response they want, enabling more precise control over data.
+
+4. 𝙑𝙚𝙧𝙨𝙞𝙤𝙣𝙞𝙣𝙜: GraphQL eliminates the need for versioning by allowing clients to evolve queries independently.
+
+5. 𝙏𝙤𝙤𝙡𝙞𝙣𝙜 𝘼𝙣𝙙 𝙀𝙘𝙤𝙨𝙮𝙨𝙩𝙚𝙢: GraphQL offers robust tooling and libraries for development and testing.
+
 ### Description of the implementation
 
 - GraphQL is implemented with `99designs/gqlgen` golang library
