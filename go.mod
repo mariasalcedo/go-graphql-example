@@ -6,7 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.46
 	github.com/sirupsen/logrus v1.9.3
 	github.com/stretchr/testify v1.9.0
-	github.com/vektah/gqlparser/v2 v2.5.11
+	github.com/vektah/gqlparser/v2 v2.5.12
 )
 
 require (
