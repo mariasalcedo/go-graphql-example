@@ -2,6 +2,18 @@
 
 package model
 
+type Mutation struct {
+}
+
+type NewWindFarm struct {
+	// Name of the wind farm
+	Name string `json:"name"`
+	// Latitude in degrees
+	Latitude float64 `json:"latitude"`
+	// Longitude in degrees
+	Longitude float64 `json:"longitude"`
+}
+
 type Query struct {
 }
 

@@ -33,3 +33,16 @@ type WeatherForecast {
 type Query {
   id: String
 }
+
+input NewWindFarm {
+  "Name of the wind farm"
+  name: String!
+  "Latitude in degrees"
+  latitude: Float!
+  "Longitude in degrees"
+  longitude: Float!
+}
+
+type Mutation {
+  createWindFarm(input: NewWindFarm): WindFarm!
+}

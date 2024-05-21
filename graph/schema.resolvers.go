@@ -11,6 +11,11 @@ import (
 	"github.com/mariasalcedo/go-graphql-example/graph/model"
 )
 
+// CreateWindFarm is the resolver for the createWindFarm field.
+func (r *mutationResolver) CreateWindFarm(ctx context.Context, input *model.NewWindFarm) (*model.WindFarm, error) {
+	panic(fmt.Errorf("not implemented: CreateWindFarm - createWindFarm"))
+}
+
 // ID is the resolver for the id field.
 func (r *queryResolver) ID(ctx context.Context) (*string, error) {
 	panic(fmt.Errorf("not implemented: ID - id"))
@@ -31,11 +36,15 @@ func (r *windFarmResolver) Elevation(ctx context.Context, obj *model.WindFarm) (
 	panic(fmt.Errorf("not implemented: Elevation - elevation"))
 }
 
+// Mutation returns MutationResolver implementation.
+func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 // WindFarm returns WindFarmResolver implementation.
 func (r *Resolver) WindFarm() WindFarmResolver { return &windFarmResolver{r} }
 
+type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type windFarmResolver struct{ *Resolver }
