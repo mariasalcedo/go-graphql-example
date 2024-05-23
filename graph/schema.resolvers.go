@@ -67,7 +67,15 @@ func (r *windFarmResolver) HasPrecipitationToday(ctx context.Context, obj *model
 
 // Elevation is the resolver for the elevation field.
 func (r *windFarmResolver) Elevation(ctx context.Context, obj *model.WindFarm) (float64, error) {
-	panic(fmt.Errorf("not implemented: Elevation - elevation"))
+	request := apimodel.ElevationRequest{
+		Latitude:  obj.Latitude,
+		Longitude: obj.Longitude,
+	}
+	response, err := client.ReadElevation(r.Config, request)
+	if err != nil {
+		log.WithError(err).Error("Could not obtain elevation for lat: %f lon: %f", obj.Latitude, obj.Longitude)
+	}
+	return response.Elevation[0], err
 }
 
 // Mutation returns MutationResolver implementation.
